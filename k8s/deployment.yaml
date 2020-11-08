@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-ms
+  namespace: nginx-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-ms
+  template:
+    metadata:
+      labels:
+        app: nginx-ms
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: nginx-ms
+                operator: In
+                values:
+                - nginx-ms
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: nginx-ms
+        image: woonizzooni/nginx-media-server:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 1935
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+
