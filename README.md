@@ -1,5 +1,5 @@
 # nginx-media-server
-Docker image for an RTMP/HLS/DASH server running on nginx-1.18.0 with nginx-rtmp-module-1.2.1
+Docker image for RTMP/HLS/DASH server running on nginx-1.18.0 with nginx-rtmp-module-1.2.1
 
 ## Introduction
 This docker image can be used to create an RTMP server to serv HLS, DASH and RTMP at a time with nginx and nginx-rtmp-module, built from the current latest sources of the NGINX stable branch. 
